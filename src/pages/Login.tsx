@@ -116,12 +116,6 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Hint para primera vez */}
-          <div className="mt-5 pt-4 border-t border-gray-100">
-            <p className="text-center text-xs text-gray-400">
-              Primera vez: usuario <code className="bg-gray-100 px-1 rounded text-gray-600">admin</code> · contraseña <code className="bg-gray-100 px-1 rounded text-gray-600">tamales2025</code>
-            </p>
-          </div>
         </div>
 
         <p className="text-center text-orange-300 text-xs mt-6">

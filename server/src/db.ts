@@ -5,7 +5,10 @@ import { fileURLToPath } from 'node:url';
 import bcrypt from 'bcryptjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_PATH = path.join(__dirname, '../../tamales.db');
+// En Vercel (serverless) el filesystem es de solo lectura excepto /tmp
+const DB_PATH = process.env.VERCEL
+  ? '/tmp/tamales.db'
+  : path.join(__dirname, '../../tamales.db');
 
 export const db = new DatabaseSync(DB_PATH);
 
