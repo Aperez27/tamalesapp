@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { initDb } from './db.js';
 import { requireAuth } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
@@ -15,6 +17,9 @@ import workersRoutes from './routes/workers.js';
 import workerPaymentsRoutes from './routes/worker-payments.js';
 
 initDb();
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DIST = path.join(__dirname, '../../dist');
 
 const app = express();
 const PORT = process.env.PORT ?? 3001;
@@ -39,6 +44,12 @@ app.use('/api/worker-payments', requireAuth, workerPaymentsRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true, time: new Date().toISOString() }));
 
+// Servir el frontend de React (producción)
+app.use(express.static(DIST));
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(DIST, 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`🌽 TamalesApp API corriendo en http://localhost:${PORT}`);
+  console.log(`🌽 TamalesApp corriendo en http://localhost:${PORT}`);
 });
